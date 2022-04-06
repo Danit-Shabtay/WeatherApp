@@ -1,0 +1,6 @@
+export const HOME_PAGE = "HOME_PAGE";
+export const FAVORITE_PAGE = "FAVORITE_PAGE";
+
+export const ADD_FAVORITE = "ADD_FAVORITE";
+export const REMOVE_FAVORITE = "REMOVE_FAVORITE";
+export const GET_ALL_FAVORITE = "GET_ALL_FAVORITE";
