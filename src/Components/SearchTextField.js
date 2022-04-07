@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { fetchCityInformation } from "../API/ApiRequests";
 import { parseCityInformation } from "../API/ApiParsers";
+import "./SearchTextField.css";
 
 const DEFAULT_CITY_NAME = "Tel Aviv";
 
@@ -28,13 +29,11 @@ export default function SearchTextField(props) {
   */
   useEffect(async () => {
     const cityInformationList = await getCityInformation(DEFAULT_CITY_NAME);
-
     const firstCityInformation = cityInformationList[0];
     const firstCityInformationKey = firstCityInformation.key;
 
     setCityList(cityInformationList);
     setCurrentCityInformation(firstCityInformation);
-
     onCityChange(firstCityInformation);
   }, []);
 
@@ -61,7 +60,6 @@ export default function SearchTextField(props) {
     }
 
     setCurrentCityInformation(selectedCity);
-
     onCityChange(selectedCity);
   };
 

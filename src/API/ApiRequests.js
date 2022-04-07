@@ -52,6 +52,11 @@ export const fetchCityInformation = (cityName) => {
 export const fetchCurrentWeather = (locationId) => {
   const apiUrl = CURRENT_WEATHER_URL + locationId + API_KEY;
 
-  return Promise.resolve(DummyCurrentWeather);
+  if (locationId == 20000) {
+    return Promise.resolve([DummyCurrentWeather[0]]);
+  } else {
+    return Promise.resolve([DummyCurrentWeather[1]]);
+  }
+
   //return fetch(apiUrl).then((response) => response.json());
 };

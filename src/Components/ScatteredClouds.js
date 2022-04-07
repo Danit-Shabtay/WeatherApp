@@ -1,49 +1,20 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
-import Paper from "@mui/material/Paper";
+import { fetchDailyForecasts } from "../API/ApiRequests";
+import { parseForecastResponse } from "../API/ApiParsers";
 import Grid from "@mui/material/Grid";
 import WeatherCard from "./WeatherCard";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import { fetchDailyForecasts } from "../API/ApiRequests";
-import { parseForecastResponse } from "../API/ApiParsers";
 import store from "../State/Store";
+import "./ScatteredClouds.css";
 import {
   addCityToFavorite,
   removeCityFromFavorite,
   isCityInFavorite,
 } from "../State/CityActions";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
-const BigText = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  boxShadow: 0,
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  fontSize: 32,
-}));
-
-const useStyles = makeStyles({
-  general: {
-    padding: "5%",
-  },
-  withoutBorder: {
-    boxShadow: 0,
-  },
-});
 
 /**
  * Retreive weather data from the API and format it.
@@ -82,7 +53,7 @@ const createWeatherCardsList = (weatherForecastData) => {
         return (
           <WeatherCard
             key={index++}
-            day={data.day}
+            title={data.day}
             temperature={data.temperature}
           />
         );
@@ -95,8 +66,6 @@ export default function ScatteredClouds(props) {
   const [weatherForecastList, setWeatherForecastList] = useState([]);
   const [isCityFavorite, setIsCityFavorite] = useState(false);
   const [cityInformation, setCityInformation] = useState({});
-  const classes = useStyles();
-
   const weatherCardsList = createWeatherCardsList(weatherForecastList);
 
   /**
@@ -153,47 +122,34 @@ export default function ScatteredClouds(props) {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-      spacing={2}
-      className={classes.general}
-    >
+    <Grid container direction="row" spacing={1}>
       {/* First row */}
-      <Grid
-        container
-        item
-        xs={12}
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Item className={classes.withoutBorder}>bbbb</Item>
-
+      <Grid container item xs={3} direction="left">
+        <div className="city-name">Tel Aviv</div>
+      </Grid>
+      <Grid container item xs={6}></Grid>
+      <Grid container item xs={3} direction="right">
         <Button onClick={() => addRemoveCityFromFavorite(cityInformation)}>
           {getFavoriteButtonText(cityInformation)}
+          <IconButton>{getFavoriteIcon()}</IconButton>
         </Button>
-        <IconButton>{getFavoriteIcon()}</IconButton>
       </Grid>
+
+      <Grid container item xs={2}></Grid>
 
       {/* Second row */}
-      <Grid item xs={12}>
-        <BigText>Scaterd Clouds</BigText>
+      <Grid item xs={16}>
+        <div className="scattered-clouds">Scattered Clouds</div>
       </Grid>
 
+      <Grid container item xs={2}></Grid>
+      <Grid container item xs={2}></Grid>
+
       {/* Third row */}
-      <Grid
-        container
-        item
-        xs={12}
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
+      <Grid container item xs={16} direction="row" alignItems="center">
         {weatherCardsList}
       </Grid>
+      <Grid container item xs={2}></Grid>
     </Grid>
   );
 }

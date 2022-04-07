@@ -1,7 +1,9 @@
 import * as React from "react";
+import { useState } from "react";
 import "./App.css";
 import ApplicationBar from "./Components/ApplicationBar";
 import HomeScreen from "./Components/HomeScreen";
+import FavoriteScreen from "./Components/FavoriteScreen";
 import {
   fetchDailyForecasts,
   fetchCityInformation,
@@ -12,46 +14,31 @@ import {
   parseCityInformation,
   parseCurrentWeather,
 } from "./API/ApiParsers";
-
-import store from "./State/Store";
-import { addFavorite, removeFavorite } from "./State/StoreActions";
+import { ScreenTypes } from "./Constants/ScreenTypes";
 
 function App() {
-  // TODO: Remove from here after Redux integration:
-  /*
-  const locationId = "215854";
-  fetchDailyForecasts(locationId).then((response) => {
-    const parsed = parseForecastResponse(response);
-    console.log(parsed);
-  });
+  const [currentPageName, setCurrentPageName] = useState(ScreenTypes.HOME);
 
-  const cityName = "tel aviv";
-  fetchCityInformation(cityName).then((response) => {
-    const cityInfo = parseCityInformation(response);
-    console.log(cityInfo);
-  });
+  const onPageClick = (pageName) => {
+    setCurrentPageName(pageName);
+    console.log(currentPageName);
+  };
 
-  fetchCurrentWeather(locationId).then((response) => {
-    const weatherInfo = parseCurrentWeather(response);
-    console.log(weatherInfo);
-  });
-  */
-
-  // TODO: Remove from here:
-  /*
-  console.log(store.getState());
-  const weather = { name: "Tel Aviv", weatherText: "Cludy", tempature: 35 };
-  store.dispatch(addFavorite(weather));
-  console.log(store.getState());
-  store.dispatch(removeFavorite(weather));
-  console.log(store.getState());
-  */
+  const currentScreen = () => {
+    if (currentPageName === ScreenTypes.HOME) {
+      return <HomeScreen></HomeScreen>;
+    } else if (currentPageName === ScreenTypes.FAVORITE) {
+      return <FavoriteScreen></FavoriteScreen>;
+    } else {
+      return <div></div>;
+    }
+  };
 
   return (
     <div className="App">
       <React.Fragment>
-        <ApplicationBar></ApplicationBar>
-        <HomeScreen></HomeScreen>
+        <ApplicationBar onPageClick={onPageClick}></ApplicationBar>
+        {currentScreen()}
       </React.Fragment>
     </div>
   );

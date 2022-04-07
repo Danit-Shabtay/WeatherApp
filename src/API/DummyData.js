@@ -391,4 +391,28 @@ export const DummyCurrentWeather = [
       "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
     Link: "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
   },
+  {
+    LocalObservationDateTime: "2022-04-05T23:34:00+03:00",
+    EpochTime: 1649190840,
+    WeatherText: "Sunny",
+    WeatherIcon: 7,
+    HasPrecipitation: false,
+    PrecipitationType: null,
+    IsDayTime: false,
+    Temperature: {
+      Metric: {
+        Value: 24.5,
+        Unit: "C",
+        UnitType: 17,
+      },
+      Imperial: {
+        Value: 76.0,
+        Unit: "F",
+        UnitType: 18,
+      },
+    },
+    MobileLink:
+      "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
+    Link: "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
+  },
 ];
