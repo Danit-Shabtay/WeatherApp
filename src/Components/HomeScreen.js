@@ -3,7 +3,6 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import SearchTextField from "./SearchTextField";
 import ScatteredClouds from "./ScatteredClouds";
-import "./SearchTextField";
 import "./HomeScreen.css";
 
 export default function HomeScreen() {

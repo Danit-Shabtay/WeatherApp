@@ -1,12 +1,11 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { fetchDailyForecasts } from "../API/ApiRequests";
-import { parseForecastResponse } from "../API/ApiParsers";
+import { fetchDailyForecasts, fetchCurrentWeather } from "../API/ApiRequests";
+import { parseForecastResponse, parseCurrentWeather } from "../API/ApiParsers";
 import Grid from "@mui/material/Grid";
 import WeatherCard from "./WeatherCard";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import store from "../State/Store";
 import "./ScatteredClouds.css";
@@ -15,6 +14,8 @@ import {
   removeCityFromFavorite,
   isCityInFavorite,
 } from "../State/CityActions";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 /**
  * Retreive weather data from the API and format it.
@@ -62,11 +63,21 @@ const createWeatherCardsList = (weatherForecastData) => {
   );
 };
 
+const getCurrentWeatherForCity = async (cityId) => {
+  const cityCurrentWeatherResponse = await fetchCurrentWeather(cityId);
+  const cityCurrentWeather = parseCurrentWeather(cityCurrentWeatherResponse);
+  return cityCurrentWeather;
+};
+
 export default function ScatteredClouds(props) {
   const [weatherForecastList, setWeatherForecastList] = useState([]);
   const [isCityFavorite, setIsCityFavorite] = useState(false);
   const [cityInformation, setCityInformation] = useState({});
+  const [currentCityWeather, setCurrentCityWeather] = useState({});
   const weatherCardsList = createWeatherCardsList(weatherForecastList);
+
+  const theme = useTheme();
+  const largeScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   /**
     Called whenever the city information gets changed.
@@ -87,6 +98,9 @@ export default function ScatteredClouds(props) {
 
     const weatherForecastData = await getWeatherForecastData(cityId);
     setWeatherForecastList(weatherForecastData);
+
+    const currentCityWeather = await getCurrentWeatherForCity(cityId);
+    setCurrentCityWeather(currentCityWeather);
   }, [props.cityInformation]);
 
   /**
@@ -122,34 +136,54 @@ export default function ScatteredClouds(props) {
   };
 
   return (
-    <Grid container direction="row" spacing={1}>
+    <Grid container direction={largeScreen ? "row" : "column"} spacing={1}>
       {/* First row */}
-      <Grid container item xs={3} direction="left">
-        <div className="city-name">Tel Aviv</div>
-      </Grid>
-      <Grid container item xs={6}></Grid>
-      <Grid container item xs={3} direction="right">
-        <Button onClick={() => addRemoveCityFromFavorite(cityInformation)}>
-          {getFavoriteButtonText(cityInformation)}
-          <IconButton>{getFavoriteIcon()}</IconButton>
-        </Button>
-      </Grid>
+      <Grid
+        container
+        direction="row"
+        justifyContent={largeScreen ? "space-between" : "center"}
+        alignItems="center"
+        className="first-grid-row"
+      >
+        <Grid item>
+          <div className="city-name">{cityInformation.label}</div>
+          <div className="city-weather">
+            {currentCityWeather.temperature + "°c"}
+          </div>
+        </Grid>
 
-      <Grid container item xs={2}></Grid>
+        <Grid item>
+          <Button
+            color="inherit"
+            className="btn-favorite"
+            onClick={() => addRemoveCityFromFavorite(cityInformation)}
+          >
+            {getFavoriteButtonText(cityInformation)}
+            {getFavoriteIcon()}
+          </Button>
+        </Grid>
+      </Grid>
 
       {/* Second row */}
-      <Grid item xs={16}>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <div className="scattered-clouds">Scattered Clouds</div>
       </Grid>
 
-      <Grid container item xs={2}></Grid>
-      <Grid container item xs={2}></Grid>
-
       {/* Third row */}
-      <Grid container item xs={16} direction="row" alignItems="center">
+      <Grid
+        container
+        item
+        direction={largeScreen ? "row" : "column"}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         {weatherCardsList}
       </Grid>
-      <Grid container item xs={2}></Grid>
     </Grid>
   );
 }

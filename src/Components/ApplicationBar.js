@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import AirOutlinedIcon from "@mui/icons-material/AirOutlined";
-import "./ApplicationBar.css";
 import { ScreenTypes } from "../Constants/ScreenTypes";
+import "./ApplicationBar.css";
 
 export default function ButtonAppBar(props) {
   const onPageClick = props.onPageClick;

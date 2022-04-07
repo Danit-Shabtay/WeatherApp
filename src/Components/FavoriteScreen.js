@@ -1,31 +1,34 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
-import "./FavoriteScreen";
 import WeatherCard from "./WeatherCard";
 import { getAllFavorites } from "../State/FavoriteActions";
 import { useState, useEffect } from "react";
 import { fetchCurrentWeather } from "../API/ApiRequests";
 import { parseCurrentWeather } from "../API/ApiParsers";
+import "./FavoriteScreen.css";
 
 const getCurrentWeatherDetailsForCity = async (cityId) => {
   const cityCurrentWeatherResponse = await fetchCurrentWeather(cityId);
   const cityCurrentWeather = parseCurrentWeather(cityCurrentWeatherResponse);
+
   return cityCurrentWeather;
 };
 
 const getFavoriteWeatherDetails = async () => {
   const storeFavorites = getAllFavorites();
 
-  if (storeFavorites.length == 0) {
+  if (storeFavorites.length === 0) {
     return [];
   }
 
   let favoriteWeatherDetails = [];
 
-  await storeFavorites.map(async (favorite) => {
+  for (let i = 0; i < storeFavorites.length; i++) {
+    const favorite = storeFavorites[i];
+
     const cityId = favorite.key;
     const cityCurrentWeather = await getCurrentWeatherDetailsForCity(cityId);
-
+    
     const cityTitle = favorite.label;
     const cityTemperature = cityCurrentWeather.temperature;
     const cityWeatherDescription = cityCurrentWeather.weatherText;
@@ -35,7 +38,7 @@ const getFavoriteWeatherDetails = async () => {
       temperature: cityTemperature,
       description: cityWeatherDescription,
     });
-  });
+  }
 
   return favoriteWeatherDetails;
 };
@@ -57,7 +60,6 @@ const getWeatherCards = (favoriteWeatherDetails) => {
       />
     );
   });
-  //<WeatherCard
 };
 
 export default function FavoriteScreen() {
@@ -66,21 +68,16 @@ export default function FavoriteScreen() {
   useEffect(async () => {
     const favoriteWeatherDetails = await getFavoriteWeatherDetails();
     setFavoriteWeatherDetails(favoriteWeatherDetails);
-    //console.log(favoriteWeatherDetails);
   }, []);
 
   return (
     <Grid
-      item
-      xs={12}
       className="favorite-screen"
       container
       direction="row"
       justifyContent="center"
     >
-      <Grid item xs={2}></Grid>
       {getWeatherCards(favoriteWeatherDetails)}
-      <Grid item xs={2}></Grid>
     </Grid>
   );
 }

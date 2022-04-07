@@ -21,14 +21,14 @@ const CURRENT_WEATHER_URL =
 export const fetchDailyForecasts = (locationId) => {
   const apiUrl = FORECAST_API_URL + locationId + API_KEY;
 
-  ///*
+  /*
   if (locationId == 20000) {
     return Promise.resolve(DummyForecastData[1]);
   } else {
     return Promise.resolve(DummyForecastData[0]);
   }
-  //*/
-  //return fetch(apiUrl).then((response) => response.json());
+  */
+  return fetch(apiUrl).then((response) => response.json());
 };
 
 /**
@@ -40,8 +40,8 @@ export const fetchCityInformation = (cityName) => {
   const cityNameWithoutSpace = cityName.replace(" ", "%20");
   const apiUrl = AUTOCOMPLETE_API_URL + API_KEY + "&q=" + cityNameWithoutSpace;
 
-  return Promise.resolve(DummyAutoCompleteData);
-  //return fetch(apiUrl).then((response) => response.json());
+  //return Promise.resolve(DummyAutoCompleteData);
+  return fetch(apiUrl).then((response) => response.json());
 };
 
 /**
@@ -52,11 +52,13 @@ export const fetchCityInformation = (cityName) => {
 export const fetchCurrentWeather = (locationId) => {
   const apiUrl = CURRENT_WEATHER_URL + locationId + API_KEY;
 
+  /*
   if (locationId == 20000) {
     return Promise.resolve([DummyCurrentWeather[0]]);
   } else {
     return Promise.resolve([DummyCurrentWeather[1]]);
   }
+  */
 
-  //return fetch(apiUrl).then((response) => response.json());
+  return fetch(apiUrl).then((response) => response.json());
 };

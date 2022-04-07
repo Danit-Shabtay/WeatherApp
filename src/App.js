@@ -1,23 +1,18 @@
 import * as React from "react";
 import { useState } from "react";
-import "./App.css";
 import ApplicationBar from "./Components/ApplicationBar";
 import HomeScreen from "./Components/HomeScreen";
 import FavoriteScreen from "./Components/FavoriteScreen";
-import {
-  fetchDailyForecasts,
-  fetchCityInformation,
-  fetchCurrentWeather,
-} from "./API/ApiRequests";
-import {
-  parseForecastResponse,
-  parseCityInformation,
-  parseCurrentWeather,
-} from "./API/ApiParsers";
 import { ScreenTypes } from "./Constants/ScreenTypes";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import "./App.css";
 
 function App() {
   const [currentPageName, setCurrentPageName] = useState(ScreenTypes.HOME);
+
+  const theme = useTheme();
+  const largeScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   const onPageClick = (pageName) => {
     setCurrentPageName(pageName);
@@ -35,7 +30,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={"image" + (largeScreen ? " full-screen" : "")}>
       <React.Fragment>
         <ApplicationBar onPageClick={onPageClick}></ApplicationBar>
         {currentScreen()}
