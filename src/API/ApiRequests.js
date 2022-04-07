@@ -7,11 +7,11 @@ import {
 
 const API_KEY = "?apikey=vJp9m3kXAkV2ge2mGzgOrX3AdC86iGaA";
 const FORECAST_API_URL =
-  "http://dataservice.accuweather.com/forecasts/v1/daily/5day/";
+  "https://dataservice.accuweather.com/forecasts/v1/daily/5day/";
 const AUTOCOMPLETE_API_URL =
-  "http://dataservice.accuweather.com/locations/v1/cities/autocomplete";
+  "https://dataservice.accuweather.com/locations/v1/cities/autocomplete";
 const CURRENT_WEATHER_URL =
-  "http://dataservice.accuweather.com/currentconditions/v1/";
+  "https://dataservice.accuweather.com/currentconditions/v1/";
 
 /**
  * Request 5 day forecast from the server.
