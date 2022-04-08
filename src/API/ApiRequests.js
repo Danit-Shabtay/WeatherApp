@@ -5,7 +5,7 @@ import {
   DummyCurrentWeather,
 } from "./DummyData";
 
-const API_KEY = "?apikey=vJp9m3kXAkV2ge2mGzgOrX3AdC86iGaA";
+const API_KEY = "?apikey=PHyzz2XphOp36IN0AXgUpEozvF5sf4EY";
 const FORECAST_API_URL =
   "https://dataservice.accuweather.com/forecasts/v1/daily/5day/";
 const AUTOCOMPLETE_API_URL =
