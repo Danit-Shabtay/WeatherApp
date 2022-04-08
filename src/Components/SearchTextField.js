@@ -63,11 +63,26 @@ export default function SearchTextField(props) {
     onCityChange(selectedCity);
   };
 
+  /**
+   * Used for rendering Material-UI AutoComplete component.
+   * @note https://stackoverflow.com/a/69396153
+   * @param {*} props Props from the parent component.
+   * @param {*} option Contains city informaion: {labal, key}.
+   */
+  const autoCompleteRender = (props, option) => {
+    return (
+      <li {...props} key={option.key}>
+        {option.label}
+      </li>
+    );
+  };
+
   return (
     <Autocomplete
       disablePortal
       value={currentCityInformation.label}
       options={cityList}
+      renderOption={(props, option) => autoCompleteRender(props, option)}
       onChange={(event, value) => handleOnChange(value)}
       onInputChange={(event, value) => handleOnInputChange(value)}
       renderInput={(params) => <TextField {...params} />}
